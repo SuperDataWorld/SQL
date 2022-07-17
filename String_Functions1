@@ -1,0 +1,130 @@
+1. CONCAT 
+
+SELECT
+agency_name,
+category,
+complaint_type
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+LIMIT
+1000
+
+SELECT
+agency_name,
+CONCAT(category, CONCAT(" ",complaint_type))
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+LIMIT
+1000
+
+
+2. LEFT 
+
+SELECT DISTINCT
+agency_name, count(agency_name) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY agency_name
+ORDER BY count desc
+
+SELECT
+LEFT(agency_name,3), count(LEFT(agency_name,3)) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY LEFT(agency_name,3)
+ORDER BY count desc
+
+3. RIGHT
+
+SELECT
+RIGHT(agency_name,5), count(RIGHT(agency_name,5)) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY RIGHT(agency_name,5)
+ORDER BY count desc
+
+
+SELECT
+agency_name, count(agency_name) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+Where RIGHT(agency_name, 5) = 'Queue'
+GROUP BY agency_name
+ORDER BY count desc
+
+
+4. Upper / Lower 
+
+SELECT DISTINCT
+category, count(category) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY category
+ORDER BY count desc
+
+SELECT DISTINCT
+Upper(category), count(category) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY category
+ORDER BY count desc
+
+SELECT DISTINCT
+Lower(category), count(category) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY category
+ORDER BY count desc
+
+
+
+5. SUBSTRING
+SELECT DISTINCT
+complaint_type, count(complaint_type) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY complaint_type
+ORDER BY count desc
+
+SELECT DISTINCT
+SUBSTRING(complaint_type,1, 34), count(complaint_type) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+GROUP BY SUBSTRING(complaint_type, 1, 34)
+ORDER BY count desc
+
+SELECT DISTINCT
+SUBSTRING(complaint_type,40), count(complaint_type) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+WHERE SUBSTRING(complaint_type,1, 34) = 'Construction Zone Tow-away Permits'
+GROUP BY SUBSTRING(complaint_type, 40)
+ORDER BY count desc
+
+6.  REPLACE
+
+SELECT DISTINCT
+agency_name, count(agency_name) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+WHERE LEFT(agency_name, 2) = 'zz'
+GROUP BY agency_name
+ORDER BY count desc
+
+SELECT DISTINCT
+replace(agency_name, "zz"," "), count(agency_name) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+WHERE LEFT(agency_name, 2) = 'zz'
+GROUP BY agency_name
+ORDER BY count desc
+
+7. TRIM
+
+SELECT DISTINCT
+LTRIM(replace(agency_name, "zz"," ")), count(agency_name) as count
+FROM
+`bigquery-public-data.san_francisco.311_service_requests`
+WHERE LEFT(agency_name, 2) = 'zz'
+GROUP BY agency_name
+ORDER BY count desc
