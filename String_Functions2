@@ -1,0 +1,126 @@
+1 
+SELECT
+agency_name,
+category,
+complaint_type,
+CONTAINS_SUBSTR(complaint_type, 'cans') as cans_present
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+ORDER BY cans_present desc
+
+
+2
+SELECT
+agency_name,
+category,
+complaint_type,
+count(unique_key) as count
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+Where
+CONTAINS_SUBSTR(complaint_type, 'cans')
+GROUP BY
+agency_name,
+category,
+complaint_type
+Order BY count desc;
+
+3
+SELECT
+agency_name,
+category,
+complaint_type,
+Length(complaint_type) as length
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+ORDER BY length desc
+
+
+4
+SELECT
+agency_name,
+category,
+complaint_type
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+Where
+Length(complaint_type) BETWEEN 200 AND 250
+
+
+5
+SELECT
+agency_name,
+category,
+complaint_type,
+STARTS_WITH(agency_name, 'SSP') as SSP
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+
+
+
+6
+SELECT
+agency_name,
+category,
+complaint_type
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+WHERE
+ENDS_WITH(agency_name, 'Queue')
+
+
+
+7
+SELECT
+agency_name,
+category,
+complaint_type,
+REPLACE(category, '311', '313') as nested_replace
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+
+
+
+8
+SELECT
+agency_name,
+category,
+complaint_type,
+REPLACE(REPLACE(category, '311', '313'),'KB','314') as nested_replace
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+
+
+
+9
+SELECT
+agency_name,
+category,
+complaint_type,
+STRPOS(complaint_type,"_Left_Out")
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+WHERE
+ENDS_WITH(complaint_type, '24x7')
+
+
+10 
+SELECT
+agency_name,
+category,
+complaint_type,
+SUBSTRING(complaint_type,STRPOS(complaint_type,"Left_Out"))
+FROM
+`bigquery-public-data.san_francisco_311.311_service_requests`
+WHERE
+ENDS_WITH(complaint_type, '24x7')
+
+11
+SELECT
+email,
+REGEXP_CONTAINS(email, r'@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+') AS is_valid
+FROM
+(SELECT
+['foo@example.com', 'bar@example.org', 'www.example.net']
+AS addresses),
+UNNEST(addresses) AS email;
